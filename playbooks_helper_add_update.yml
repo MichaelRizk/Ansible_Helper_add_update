@@ -1,0 +1,113 @@
+---
+
+- name: Helper address udpate
+  gather_facts: no
+  hosts: csf32-01:csf-01:csf07-01:csf01-01:csf07-01
+  vars:
+    provider:
+      host: "{{ansible_host}}"
+      # username and pwd will be used when calling Ansible from command-line --user=<usernmae> --ask-pass
+  
+  tasks:
+    - name: Seoul configure ip helpers on multiple interfaces
+      ios_config:
+        lines:
+          - ip helper-address 192.77.2.242
+          - ip helper-address 192.23.98.242
+          - no ip helper-address 192.290.158.247
+          - no ip helper-address 192.230.158.247
+        parents: "{{ item }}"
+      with_items:
+        - interface Vlan1921
+        - interface Vlan172
+        - interface Vlan201
+      tags: seo
+      when: "'csf32-01' in inventory_hostname"
+    
+
+    - name: Pause Play, when ready press Enter!
+      pause:
+    
+
+    - name: HKG configure ip helpers on multiple interfaces
+      ios_config:
+        lines:
+          - ip helper-address 192.55.2.242
+          - ip helper-address 192.200.5.242
+          - no ip helper-address 192.23.13.47
+          - no ip helper-address 192.3.154.24
+        parents: "{{ item }}"
+      with_items:
+        - interface Vlan11
+        - interface Vlan12
+        - interface Vlan13
+        - interface Vlan14
+        - interface Vlan15
+        - interface Vlan1921
+        - interface Vlan1922
+        - interface Vlan150
+        - interface Vlan172
+        - interface Vlan201
+      tags: hkg
+      when: "'csf-01' in inventory_hostname"
+
+
+    - name: Pause Play, when ready press Enter!
+      pause:
+    
+
+    - name: Manama configure ip helpers on multiple interfaces
+      ios_config:
+        lines:
+          - ip helper-address 192.7.2.25
+          - ip helper-address 192.170.7.9
+          - no ip helper-address global 192.9.150.247
+          - no ip helper-address global 192.9.150.248
+        parents: "{{ item }}"
+      with_items:
+        - interface Vlan1921
+        - interface Vlan150
+        - interface Vlan172
+        - interface Vlan201
+      tags: man
+      when: "'csf07-01' in inventory_hostname"
+
+
+    - name: Pause Play, when ready press Enter!
+      pause:
+    
+
+    - name: Khobar configure ip helpers on multiple interfaces
+      ios_config:
+        lines:
+          - ip helper-address 192.82.2.28
+          - ip helper-address 192.32.150.244
+          - no ip helper-address global 192.55.150.248
+          - no ip helper-address global 192.88.150.28
+        parents: "{{ item }}"
+      with_items:
+        - interface Vlan1921
+        - interface Vlan172
+        - interface Vlan201
+      tags: kho
+      when: "'csf01-01' in inventory_hostname"
+
+
+    - name: Pause Play, when ready press Enter!
+      pause:  
+
+
+    - name: Riyadh configure ip helpers on multiple interfaces
+      ios_config:
+        lines:
+          - ip helper-address 192.33.3.22
+          - ip helper-address 192.170.3.3
+          - no ip helper-address global 192.5.150.248
+          - no ip helper-address global 192.2.150.247
+        parents: "{{ item }}"
+      with_items:
+        - interface Vlan1921
+        - interface Vlan172
+        - interface Vlan201
+      tags: riy
+      when: "'csf07-01' in inventory_hostname"
